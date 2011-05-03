@@ -3,14 +3,19 @@
 <% end %>
 
 <h1>Your Pragmatic Catalog</h1>
+<% if @times >= 5 %>
+  <h1>count:<%= pluralize(@times,'time')%></h1>
+<% end %>
 
 <% @products.each do |product| %>
   <div class="entry">
-    <%= image_tag(product.image_url) %>
+    <%image = image_tag(product.image_url) %>
+    <%= link_to image, line_items_path(:product_id => product), :method => :post %>
     <h3><%= product.title %></h3>
     <%= sanitize product.description %>
     <div class="price_line">
       <span class="price"><%= number_to_currency(product.price) %></span>
+      <%= button_to 'Add to Cart', line_items_path(:product_id => product) %>
     </div>
   </div>
 <% end %>
